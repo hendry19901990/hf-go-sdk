@@ -27,15 +27,19 @@ FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile ABL -outputCreateChannelTx ./art
 FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile ABL -outputAnchorPeersUpdate ./artifacts/org1.abl.anchors.tx -channelID abl -asOrg ABLOrganization1
 ```
 
-###Now that your Hyperledger-Fabric Network is perfectly set up you can launch it :
+### Now that your Hyperledger-Fabric Network is perfectly set up you can launch it :
 ```bash
 cd configuration
 docker-compose up -d
 ```
 
-###Build and run the backend
+### Build and run the backend
 ```bash
 dep ensure
 go build
 ./hf-go-sdk
+```
+### Stop continers and images
+```bash
+docker system prune
 ```
