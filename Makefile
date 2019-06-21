@@ -25,12 +25,12 @@ env-down:
 ##### RUN
 run:
 	@echo "Start app ..."
-	@./abl-service
+	@./hf-go-sdk
 
 ##### CLEAN
 clean: env-down
 	@echo "Clean up ..."
 	@rm -rf /tmp/abl-*
-	@docker rm -f -v `docker ps -a --no-trunc | grep "abl-service" | cut -d ' ' -f 1` 2>/dev/null || true
-	@docker rmi `docker images --no-trunc | grep "abl-service" | cut -d ' ' -f 1` 2>/dev/null || true
+	@docker rm -f -v `docker ps -a --no-trunc | grep "hf-go-sdk" | cut -d ' ' -f 1` 2>/dev/null || true
+	@docker rmi `docker images --no-trunc | grep "hf-go-sdk" | cut -d ' ' -f 1` 2>/dev/null || true
 	@echo "Clean up done"

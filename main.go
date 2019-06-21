@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/hendry1990990/hf-go-sdk/blockchain"
+	"github.com/hendry19901990/hf-go-sdk/blockchain"
 	"os"
 )
 
@@ -14,12 +14,12 @@ func main() {
 
 		// Channel parameters
 		ChannelID:     "abl",
-		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/hendry1990990/hf-go-sdk/configuration/artifacts/abl.channel.tx",
+		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/hendry19901990/hf-go-sdk/configuration/artifacts/abl.channel.tx",
 
 		// Chaincode parameters
 		ChainCodeID:     "abl-service",
 		ChaincodeGoPath: os.Getenv("GOPATH"),
-		ChaincodePath:   "github.com/hendry1990990/hf-go-sdk/blockchain/chaincode/",
+		ChaincodePath:   "github.com/hendry19901990/hf-go-sdk/blockchain/chaincode/",
 		OrgAdmin:        "Admin",
 		OrgName:         "org1",
 		ConfigFile:      "config.yaml",

@@ -29,6 +29,7 @@ FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile ABL -outputAnchorPeersUpdate ./a
 
 ###Now that your Hyperledger-Fabric Network is perfectly set up you can launch it :
 ```bash
+cd configuration
 docker-compose up -d
 ```
 
