@@ -29,7 +29,7 @@ func main() {
 	}
 
 	// Initialization of the Fabric SDK from the previously set properties
-	err := fSetup.Initialize()
+	err := fSetup.Initialize(false)
 	if err != nil {
 		fmt.Printf("Unable to initialize the Fabric SDK: %v\n", err)
 		return
@@ -38,7 +38,7 @@ func main() {
 	defer fSetup.CloseSDK()
 
 	// Install and instantiate the chaincode
-	err = fSetup.InstallAndInstantiateCC()
+	err = fSetup.InstallAndInstantiateCC(false)
 	if err != nil {
 		fmt.Printf("Unable to install and instantiate the chaincode: %v\n", err)
 		return
@@ -46,7 +46,7 @@ func main() {
 
   var result string
 
-  result, err =  fSetup.Invoke("a","b","50")
+  result, err =  fSetup.Invoke("b","a","1")
   if err != nil {
 		fmt.Printf("Unable to invoke the chaincode: %v\n", err)
 		return

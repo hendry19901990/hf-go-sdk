@@ -105,10 +105,7 @@ func (t *ABLChaincode) query(stub shim.ChaincodeStubInterface, args []string) pb
 		return shim.Error(jsonResp)
 	}
 
-	  err = stub.SetEvent("eventInvoke", []byte{})
-		if err != nil {
-			return shim.Error(err.Error())
-		}
+
 
 	jsonResp := "{\"Name\":\"" + A + "\",\"Amount\":\"" + string(Avalbytes) + "\"}"
 	fmt.Printf("Query Response:%s\n", jsonResp)
@@ -171,11 +168,7 @@ func (t *ABLChaincode) move(stub shim.ChaincodeStubInterface, args []string) pb.
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-
-	err = stub.SetEvent("eventInvoke", []byte{})
-		if err != nil {
-			return shim.Error(err.Error())
-		}
+ 
 
 	return shim.Success(nil)
 }

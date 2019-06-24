@@ -3,7 +3,6 @@ package blockchain
 import (
 	"fmt"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
-	"github.com/hyperledger/fabric-sdk-go/pkg/client/event"
 	mspclient "github.com/hyperledger/fabric-sdk-go/pkg/client/msp"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/resmgmt"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/errors/retry"
@@ -32,11 +31,10 @@ type FabricSetup struct {
 	client          *channel.Client
 	admin           *resmgmt.Client
 	sdk             *fabsdk.FabricSDK
-	event           *event.Client
 }
 
-// Initialize reads the configuration file and sets up the client, chain and event hub
-func (setup *FabricSetup) Initialize() error {
+// Initialize reads the configuration file and sets up the client, chain
+func (setup *FabricSetup) Initialize(first bool) error {
 
 	// Add parameters for the initialization
 	if setup.initialized {
@@ -50,6 +48,10 @@ func (setup *FabricSetup) Initialize() error {
 	}
 	setup.sdk = sdk
 	fmt.Println("SDK created")
+
+	if !first {
+		return nil
+	}
 
 	// The resource management client is responsible for managing channels (create/update channel)
 	resourceManagerClientContext := setup.sdk.Context(fabsdk.WithUser(setup.OrgAdmin), fabsdk.WithOrg(setup.OrgName))
@@ -90,7 +92,11 @@ func (setup *FabricSetup) Initialize() error {
 	return nil
 }
 
-func (setup *FabricSetup) InstallAndInstantiateCC() error {
+func (setup *FabricSetup) InstallAndInstantiateCC(first bool) error {
+
+	if !first {
+		return nil
+	}
 
 	// Create the chaincode package that will be sent to the peers
 	ccPkg, err := packager.NewCCPackage(setup.ChaincodePath, setup.ChaincodeGoPath)
@@ -123,13 +129,6 @@ func (setup *FabricSetup) InstallAndInstantiateCC() error {
 		return errors.WithMessage(err, "failed to create new channel client")
 	}
 	fmt.Println("Channel client created")
-
-	// Creation of the client which will enables access to our channel events
-	setup.event, err = event.New(clientContext)
-	if err != nil {
-		return errors.WithMessage(err, "failed to create new event client")
-	}
-	fmt.Println("Event client created")
 
 	fmt.Println("Chaincode Installation & Instantiation Successful")
 	return nil
