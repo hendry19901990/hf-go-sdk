@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+const INIT_ = false
+
 func main() {
 	// Definition of the Fabric SDK properties
 	fSetup := blockchain.FabricSetup{
@@ -17,7 +19,7 @@ func main() {
 		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/hendry19901990/hf-go-sdk/configuration/artifacts/abl.channel.tx",
 
 		// Chaincode parameters
-		ChainCodeID:     "abl-service",
+		ChainCodeID:     "mycc",
 		ChaincodeGoPath: os.Getenv("GOPATH"),
 		ChaincodePath:   "github.com/hendry19901990/hf-go-sdk/blockchain/chaincode/",
 		OrgAdmin:        "Admin",
@@ -28,8 +30,10 @@ func main() {
 		UserName: "User1",
 	}
 
+
+
 	// Initialization of the Fabric SDK from the previously set properties
-	err := fSetup.Initialize(false)
+	err := fSetup.Initialize(INIT_)
 	if err != nil {
 		fmt.Printf("Unable to initialize the Fabric SDK: %v\n", err)
 		return
@@ -38,7 +42,7 @@ func main() {
 	defer fSetup.CloseSDK()
 
 	// Install and instantiate the chaincode
-	err = fSetup.InstallAndInstantiateCC(false)
+	err = fSetup.InstallAndInstantiateCC(INIT_)
 	if err != nil {
 		fmt.Printf("Unable to install and instantiate the chaincode: %v\n", err)
 		return
@@ -46,7 +50,7 @@ func main() {
 
   var result string
 
-  result, err =  fSetup.Invoke("b","a","1")
+  result, err =  fSetup.Invoke("a","b","5")
   if err != nil {
 		fmt.Printf("Unable to invoke the chaincode: %v\n", err)
 		return

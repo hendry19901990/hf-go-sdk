@@ -153,7 +153,7 @@ channels:
 #
 organizations:
   org1:
-    mspid: org1.hf.abl.io
+    mspid: ABLOrganization1
     cryptoPath: peerOrganizations/org1.hf.abl.io/users/{userName}@org1.hf.abl.io/msp
     peers:
       - peer0.org1.hf.abl.io

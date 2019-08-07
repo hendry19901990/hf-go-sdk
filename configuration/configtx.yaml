@@ -37,13 +37,13 @@ Profiles:
 Organizations:
     - &ABL
         Name: ABL
-        ID: hf.abl.io
+        ID: ABL
         AdminPrincipal: Role.ADMIN
         MSPDir: crypto-config/ordererOrganizations/hf.abl.io/msp
 
     - &Org1ABL
         Name: ABLOrganization1
-        ID: org1.hf.abl.io
+        ID: ABLOrganization1
         AdminPrincipal: Role.ADMIN
         MSPDir: crypto-config/peerOrganizations/org1.hf.abl.io/msp
         AnchorPeers:

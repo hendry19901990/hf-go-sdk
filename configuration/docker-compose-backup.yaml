@@ -1,0 +1,174 @@
+version: '2'
+
+networks:
+  default:
+
+services:
+
+  orderer.hf.abl.io:
+    image: hyperledger/fabric-orderer:x86_64-1.0.5
+    container_name: orderer.hf.abl.io
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISPROFILE=ABL
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=ABL
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/hf.abl.io/orderers/orderer.hf.abl.io/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/hf.abl.io/orderers/orderer.hf.abl.io/tls:/var/hyperledger/orderer/tls
+      - ./backup/orderer.hf.abl.io/production:/var/hyperledger/production
+    ports:
+      - 7050:7050
+    networks:
+      default:
+        aliases:
+          - orderer.hf.abl.io
+
+  ca.org1.hf.abl.io:
+    image: hyperledger/fabric-ca:x86_64-1.0.5
+    container_name: ca.org1.hf.abl.io
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca.org1.hf.abl.io
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.hf.abl.io-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/2b9e2b8fc68cfb759c6ac76683181d951e08fe551fb965c65fcde41e52995cf8_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.hf.abl.io-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/2b9e2b8fc68cfb759c6ac76683181d951e08fe551fb965c65fcde41e52995cf8_sk
+    ports:
+      - 7054:7054
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/peerOrganizations/org1.hf.abl.io/ca/:/etc/hyperledger/fabric-ca-server-config
+    networks:
+      default:
+        aliases:
+          - ca.org1.hf.abl.io
+
+  peer0.org1.hf.abl.io:
+    image: hyperledger/fabric-peer:x86_64-1.0.5
+    container_name: peer0.org1.hf.abl.io
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_NETWORKID=abl
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
+      - CORE_PEER_ID=peer0.org1.hf.abl.io
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer0.org1.hf.abl.io:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.hf.abl.io:7051
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_LOCALMSPID=ABLOrganization1
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+      - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer0.org1.hf.abl.io
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer0.org1.hf.abl.io/msp:/var/hyperledger/msp
+      - ./crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer0.org1.hf.abl.io/tls:/var/hyperledger/tls
+      - ./backup/peer0.org1.hf.abl.io/production:/var/hyperledger/production
+    ports:
+      - 7051:7051
+      - 7053:7053
+    depends_on:
+      - orderer.hf.abl.io
+    links:
+      - orderer.hf.abl.io
+    networks:
+      default:
+        aliases:
+          - peer0.org1.hf.abl.io
+
+  peer1.org1.hf.abl.io:
+    image: hyperledger/fabric-peer:x86_64-1.0.5
+    container_name: peer1.org1.hf.abl.io
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_ATTACHSTDOUT=true
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_NETWORKID=abl
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
+      - CORE_PEER_ID=peer1.org1.hf.abl.io
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_ADDRESS=peer1.org1.hf.abl.io:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.hf.abl.io:7051
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_LOCALMSPID=ABLOrganization1
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
+      - CORE_PEER_TLS_SERVERHOSTOVERRIDE=peer1.org1.hf.abl.io
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer1.org1.hf.abl.io/msp:/var/hyperledger/msp
+      - ./crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer1.org1.hf.abl.io/tls:/var/hyperledger/tls
+      - ./backup/peer1.org1.hf.abl.io/production:/var/hyperledger/production
+    ports:
+      - 8051:7051
+      - 8053:7053
+    depends_on:
+      - orderer.hf.abl.io
+    links:
+      - orderer.hf.abl.io
+    networks:
+      default:
+        aliases:
+          - peer1.org1.hf.abl.io
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=info
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.org1.hf.abl.io:7051
+      - CORE_PEER_LOCALMSPID=ABLOrganization1
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/crypto/peerOrganizations/org1.hf.abl.io/peers/peer0.org1.hf.abl.io/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/crypto/peerOrganizations/org1.hf.abl.io/peers/peer0.org1.hf.abl.io/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/crypto/peerOrganizations/org1.hf.abl.io/peers/peer0.org1.hf.abl.io/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/crypto/peerOrganizations/org1.hf.abl.io/users/Admin@org1.hf.abl.io/msp
+      - CORE_CHAINCODE_KEEPALIVE=10
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../blockchain/chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/var/hyperledger/crypto/
+        - ./artifacts:/var/hyperledger/artifacts/
+    networks:
+      default:
+    depends_on:
+      - orderer.hf.abl.io
+      - peer0.org1.hf.abl.io
+      - peer1.org1.hf.abl.io
+    #  - couchdb
