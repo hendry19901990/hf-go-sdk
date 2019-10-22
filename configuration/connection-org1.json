@@ -1,0 +1,60 @@
+{
+    "name": "first-network-org1",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Org1",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "Org1": {
+            "mspid": "Org1MSP",
+            "peers": [
+                "peer0.org1.hf.abl.io",
+                "peer1.org1.hf.abl.io"
+            ],
+            "certificateAuthorities": [
+                "ca.org1.hf.abl.io"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.org1.hf.abl.io": {
+            "url": "grpcs://localhost:7051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICTjCCAfWgAwIBAgIQWTgIgAF/ylcqnKTdi5Ib5TAKBggqhkjOPQQDAjByMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5oZi5hYmwuaW8xHTAbBgNVBAMTFHRsc2Nh\nLm9yZzEuaGYuYWJsLmlvMB4XDTE5MTAyMjE4MzUwMFoXDTI5MTAxOTE4MzUwMFow\ncjELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNh\nbiBGcmFuY2lzY28xFzAVBgNVBAoTDm9yZzEuaGYuYWJsLmlvMR0wGwYDVQQDExR0\nbHNjYS5vcmcxLmhmLmFibC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABM26\nu7ecpeCPDmXGz4wgkSorCd70o8xs0JmiHr8HXvx4g+vlS/8ZKp3+U4cEUty8/8Mn\naTwB+hr6t+RZyvF8FlCjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggr\nBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQg5Kqw\nSTzdB6kUaXXPuSwXusOy6Bhe2ikxQ86xoKdaMOAwCgYIKoZIzj0EAwIDRwAwRAIg\nA0iakwCCAJ3KuXL7BSEuETQV0YKnBcqa0qNiBXxxVy0CICyntdFUC3Tj+CQnPiFx\nQDRYXkSp3Cjoe8tcdxYgrgED\n-----END CERTIFICATE-----\n"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.org1.hf.abl.io",
+                "hostnameOverride": "peer0.org1.hf.abl.io"
+            }
+        },
+        "peer1.org1.hf.abl.io": {
+            "url": "grpcs://localhost:8051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICTjCCAfWgAwIBAgIQWTgIgAF/ylcqnKTdi5Ib5TAKBggqhkjOPQQDAjByMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5oZi5hYmwuaW8xHTAbBgNVBAMTFHRsc2Nh\nLm9yZzEuaGYuYWJsLmlvMB4XDTE5MTAyMjE4MzUwMFoXDTI5MTAxOTE4MzUwMFow\ncjELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNh\nbiBGcmFuY2lzY28xFzAVBgNVBAoTDm9yZzEuaGYuYWJsLmlvMR0wGwYDVQQDExR0\nbHNjYS5vcmcxLmhmLmFibC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABM26\nu7ecpeCPDmXGz4wgkSorCd70o8xs0JmiHr8HXvx4g+vlS/8ZKp3+U4cEUty8/8Mn\naTwB+hr6t+RZyvF8FlCjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggr\nBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQg5Kqw\nSTzdB6kUaXXPuSwXusOy6Bhe2ikxQ86xoKdaMOAwCgYIKoZIzj0EAwIDRwAwRAIg\nA0iakwCCAJ3KuXL7BSEuETQV0YKnBcqa0qNiBXxxVy0CICyntdFUC3Tj+CQnPiFx\nQDRYXkSp3Cjoe8tcdxYgrgED\n-----END CERTIFICATE-----\n"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.org1.hf.abl.io",
+                "hostnameOverride": "peer1.org1.hf.abl.io"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.org1.hf.abl.io": {
+            "url": "https://localhost:7054",
+            "caName": "ca-org1",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICSDCCAe+gAwIBAgIQXWjj/qRLixs6XGZYVuf0uTAKBggqhkjOPQQDAjBvMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5oZi5hYmwuaW8xGjAYBgNVBAMTEWNhLm9y\nZzEuaGYuYWJsLmlvMB4XDTE5MTAyMjE4MzUwMFoXDTI5MTAxOTE4MzUwMFowbzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xFzAVBgNVBAoTDm9yZzEuaGYuYWJsLmlvMRowGAYDVQQDExFjYS5v\ncmcxLmhmLmFibC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABDcbsl6mwsqE\n6Bg2Z/OAdfkKNCWiuelAfioN2PbzinxAtosCqHf4A8NT0rHKamSswMWYP+CGGo3t\nLkJjg+VttsmjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcD\nAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgz8nArBL1Amyc\nrvYAJjgBND5tvj3WRI1PFmIZe+SH4JEwCgYIKoZIzj0EAwIDRwAwRAIgSUCqubKL\n198QLJx/8lCg0LztPP4cNhLgnXwbUsAyAuMCICgcQHBCZqDBlI7hq5CLKycZbc6V\n5Jz3+8IE5jBhfcfZ\n-----END CERTIFICATE-----\n"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

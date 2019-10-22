@@ -16,7 +16,7 @@ func main() {
 
 		// Channel parameters
 		ChannelID:     "abl",
-		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/hendry19901990/hf-go-sdk/configuration/artifacts/abl.channel.tx",
+		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/hendry19901990/hf-go-sdk/configuration/channel-artifacts/channel.tx",
 
 		// Chaincode parameters
 		ChainCodeID:     "mycc",

@@ -153,7 +153,7 @@ channels:
 #
 organizations:
   org1:
-    mspid: ABLOrganization1
+    mspid: Org1MSP
     cryptoPath: peerOrganizations/org1.hf.abl.io/users/{userName}@org1.hf.abl.io/msp
     peers:
       - peer0.org1.hf.abl.io
@@ -180,6 +180,48 @@ orderers:
     # they will be passed in as-is to gRPC client constructor
     grpcOptions:
       ssl-target-name-override: orderer.hf.abl.io
+      # These parameters should be set in coordination with the keepalive policy on the server,
+      # as incompatible settings can result in closing of connection.
+      # When duration of the 'keep-alive-time' is set to 0 or less the keep alive client parameters are disabled
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      # allow-insecure will be taken into consideration if address has no protocol defined, if true then grpc or else grpcs
+      allow-insecure: false
+
+    tlsCACerts:
+      # Certificate location absolute path
+      path: ${GOPATH}/src/github.com/hendry19901990/hf-go-sdk/configuration/crypto-config/ordererOrganizations/hf.abl.io/tlsca/tlsca.hf.abl.io-cert.pem
+
+  orderer2.hf.abl.io:
+    url: localhost:7050
+
+    # these are standard properties defined by the gRPC library
+    # they will be passed in as-is to gRPC client constructor
+    grpcOptions:
+      ssl-target-name-override: orderer2.hf.abl.io
+      # These parameters should be set in coordination with the keepalive policy on the server,
+      # as incompatible settings can result in closing of connection.
+      # When duration of the 'keep-alive-time' is set to 0 or less the keep alive client parameters are disabled
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      # allow-insecure will be taken into consideration if address has no protocol defined, if true then grpc or else grpcs
+      allow-insecure: false
+
+    tlsCACerts:
+      # Certificate location absolute path
+      path: ${GOPATH}/src/github.com/hendry19901990/hf-go-sdk/configuration/crypto-config/ordererOrganizations/hf.abl.io/tlsca/tlsca.hf.abl.io-cert.pem
+
+  orderer3.hf.abl.io:
+    url: localhost:7050
+
+    # these are standard properties defined by the gRPC library
+    # they will be passed in as-is to gRPC client constructor
+    grpcOptions:
+      ssl-target-name-override: orderer3.hf.abl.io
       # These parameters should be set in coordination with the keepalive policy on the server,
       # as incompatible settings can result in closing of connection.
       # When duration of the 'keep-alive-time' is set to 0 or less the keep alive client parameters are disabled
@@ -282,6 +324,16 @@ entityMatchers:
       urlSubstitutionExp: localhost:7050
       sslTargetOverrideUrlSubstitutionExp: orderer.hf.abl.io
       mappedHost: orderer.hf.abl.io
+
+    - pattern: (\w*)orderer2.hf.abl.io(\w*)
+      urlSubstitutionExp: localhost:7050
+      sslTargetOverrideUrlSubstitutionExp: orderer2.hf.abl.io
+      mappedHost: orderer2.hf.abl.io
+
+    - pattern: (\w*)orderer3.hf.abl.io(\w*)
+      urlSubstitutionExp: localhost:7050
+      sslTargetOverrideUrlSubstitutionExp: orderer3.hf.abl.io
+      mappedHost: orderer3.hf.abl.io
 
   certificateAuthorities:
     - pattern: (\w*)ca.org1.hf.abl.io(\w*)

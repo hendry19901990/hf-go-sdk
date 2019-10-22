@@ -16,15 +16,15 @@ Certificates x509
 The orderer genesis block, channel tx and anchor tx
 
 ```bash
-FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile ABL -outputBlock ./artifacts/orderer.genesis.block
+FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile ABL -channelID abl -outputBlock ./artifacts/orderer.genesis.block
 ```
 
 ```bash
-FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile ABL -outputCreateChannelTx ./artifacts/abl.channel.tx -channelID abl
+FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./artifacts/abl.channel.tx -channelID abl
 ```
 
 ```bash
-FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile ABL -outputAnchorPeersUpdate ./artifacts/org1.abl.anchors.tx -channelID abl -asOrg ABLOrganization1
+FABRIC_CFG_PATH=$PWD ./bin/configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./artifacts/org1.abl.anchors.tx -channelID abl -asOrg Org1ABL
 ```
 
 ### Now that your Hyperledger-Fabric Network is perfectly set up you can launch it :
