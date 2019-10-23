@@ -25,8 +25,7 @@ LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
 COUNTER=1
 MAX_RETRY=5
 
-CC_SRC_PATH="/opt/gopath/src/github.com/chaincode"
- 
+CC_SRC_PATH="github.com/chaincode"
 
 # import utils
 . scripts/utils.sh

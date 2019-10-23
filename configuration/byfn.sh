@@ -1,9 +1,39 @@
 #!/bin/bash
+#
+# Copyright IBM Corp All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 
+# This script will orchestrate a sample end-to-end execution of the Hyperledger
+# Fabric network.
+#
+# The end-to-end verification provisions a sample Fabric network consisting of
+# two organizations, each maintaining two peers, and a “solo” ordering service.
+#
+# This verification makes use of two fundamental tools, which are necessary to
+# create a functioning transactional network with digital signature validation
+# and access control:
+#
+# * cryptogen - generates the x509 certificates used to identify and
+#   authenticate the various components in the network.
+# * configtxgen - generates the requisite configuration artifacts for orderer
+#   bootstrap and channel creation.
+#
+# Each tool consumes a configuration yaml file, within which we specify the topology
+# of our network (cryptogen) and the location of our certificates for various
+# configuration operations (configtxgen).  Once the tools have been successfully run,
+# we are able to launch our network.  More detail on the tools and the structure of
+# the network will be provided later in this document.  For now, let's get going...
+
+# prepending $PWD/../bin to PATH to ensure we are picking up the correct binaries
+# this may be commented out to resolve installed version of tools if desired
 export PATH=${PWD}/../bin:${PWD}:$PATH
 export FABRIC_CFG_PATH=${PWD}
 export VERBOSE=false
- 
+
+
+
 
 # Obtain CONTAINER_IDS and remove them
 # TODO Might want to make this optional - could clear other containers
@@ -78,9 +108,13 @@ function networkUp() {
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
     COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_CA}"
     export BYFN_CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org1.hf.abl.io/ca && ls *_sk)
-    #export BYFN_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.hf.abl.io/ca && ls *_sk)
+    export BYFN_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.hf.abl.io/ca && ls *_sk)
   fi
-  COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_RAFT2}"
+  if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_KAFKA}"
+  elif [ "${CONSENSUS_TYPE}" == "etcdraft" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_RAFT2}"
+  fi
   if [ "${IF_COUCHDB}" == "couchdb" ]; then
     COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_COUCH}"
   fi
@@ -91,9 +125,17 @@ function networkUp() {
     exit 1
   fi
 
-  sleep 1
-  echo "Sleeping 15s to allow $CONSENSUS_TYPE cluster to complete booting"
-  sleep 14
+  if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+    sleep 1
+    echo "Sleeping 10s to allow $CONSENSUS_TYPE cluster to complete booting"
+    sleep 9
+  fi
+
+  if [ "$CONSENSUS_TYPE" == "etcdraft" ]; then
+    sleep 1
+    echo "Sleeping 15s to allow $CONSENSUS_TYPE cluster to complete booting"
+    sleep 14
+  fi
 
   # now run the end to end script
   docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE $NO_CHAINCODE
@@ -188,9 +230,9 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
+  #  rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
     # remove the docker-compose yaml file that was customized to the example
-    rm -f docker-compose-e2e.yaml
+  #  rm -f docker-compose-e2e.yaml
   fi
 }
 
@@ -223,7 +265,6 @@ function replacePrivateKey() {
   fi
 }
 
-# Generates Org certs using cryptogen tool
 function generateCerts() {
   which cryptogen
   if [ "$?" -ne 0 ]; then
@@ -299,6 +340,7 @@ function generateChannelArtifacts() {
     exit 1
   fi
 
+
   echo
 }
 
@@ -320,6 +362,8 @@ COMPOSE_FILE=docker-compose-cli.yaml
 COMPOSE_FILE_COUCH=docker-compose-couch.yaml
 # org3 docker compose file
 COMPOSE_FILE_ORG3=docker-compose-org3.yaml
+# kafka and zookeeper compose file
+COMPOSE_FILE_KAFKA=docker-compose-kafka.yaml
 # two additional etcd/raft orderers
 COMPOSE_FILE_RAFT2=docker-compose-etcdraft2.yaml
 # certificate authorities compose file
@@ -420,5 +464,6 @@ elif [ "${MODE}" == "restart" ]; then ## Restart the network
 elif [ "${MODE}" == "upgrade" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
   upgradeNetwork
 else
+  printHelp
   exit 1
 fi
