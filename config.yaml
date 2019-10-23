@@ -245,7 +245,6 @@ peers:
     url: localhost:7051
     # eventUrl is only needed when using eventhub (default is delivery service)
     eventUrl: localhost:7053
-    eventSource: false
 
     grpcOptions:
       ssl-target-name-override: peer0.org1.hf.abl.io
@@ -268,7 +267,6 @@ peers:
     url: localhost:8051
     # eventUrl is only needed when using eventhub (default is delivery service)
     eventUrl: localhost:8053
-    eventSource: false
 
     grpcOptions:
       ssl-target-name-override: peer1.org1.hf.abl.io

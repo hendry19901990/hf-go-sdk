@@ -41,6 +41,7 @@ services:
         - peer0.org1.hf.abl.io:/var/hyperledger/production
     ports:
       - 7051:7051
+      - 7053:7053
 
   peer1.org1.hf.abl.io:
     container_name: peer1.org1.hf.abl.io
@@ -64,3 +65,4 @@ services:
 
     ports:
       - 8051:8051
+      - 8053:8053
