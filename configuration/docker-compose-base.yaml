@@ -1,0 +1,66 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  orderer.hf.abl.io:
+    container_name: orderer.hf.abl.io
+    extends:
+      file: peer-base.yaml
+      service: orderer-base
+    volumes:
+        - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ../crypto-config/ordererOrganizations/hf.abl.io/orderers/orderer.hf.abl.io/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/hf.abl.io/orderers/orderer.hf.abl.io/tls/:/var/hyperledger/orderer/tls
+        - orderer.hf.abl.io:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+  peer0.org1.hf.abl.io:
+    container_name: peer0.org1.hf.abl.io
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.org1.hf.abl.io
+      - CORE_PEER_ADDRESS=peer0.org1.hf.abl.io:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.hf.abl.io:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org1.hf.abl.io:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.hf.abl.io:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer0.org1.hf.abl.io/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer0.org1.hf.abl.io/tls:/etc/hyperledger/fabric/tls
+        - peer0.org1.hf.abl.io:/var/hyperledger/production
+    ports:
+      - 7051:7051
+
+  peer1.org1.hf.abl.io:
+    container_name: peer1.org1.hf.abl.io
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.org1.hf.abl.io
+      - CORE_PEER_ADDRESS=peer1.org1.hf.abl.io:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.org1.hf.abl.io:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.hf.abl.io:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.hf.abl.io:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer1.org1.hf.abl.io/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/org1.hf.abl.io/peers/peer1.org1.hf.abl.io/tls:/etc/hyperledger/fabric/tls
+        - peer1.org1.hf.abl.io:/var/hyperledger/production
+
+    ports:
+      - 8051:8051
