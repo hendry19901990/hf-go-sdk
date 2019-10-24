@@ -16,7 +16,11 @@
             "mspid": "Org1MSP",
             "peers": [
                 "peer0.org1.hf.abl.io",
-                "peer1.org1.hf.abl.io"
+                "peer1.org1.hf.abl.io",
+                "peer2.org1.hf.abl.io",
+                "peer3.org1.hf.abl.io",
+                "peer4.org1.hf.abl.io",
+                "peer5.org1.hf.abl.io"
             ],
             "certificateAuthorities": [
                 "ca.org1.hf.abl.io"
@@ -27,7 +31,7 @@
         "peer0.org1.hf.abl.io": {
             "url": "grpcs://localhost:7051",
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICTzCCAfWgAwIBAgIQUvVyuEQW8LJfdh5hStK7pzAKBggqhkjOPQQDAjByMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5oZi5hYmwuaW8xHTAbBgNVBAMTFHRsc2Nh\nLm9yZzEuaGYuYWJsLmlvMB4XDTE5MTAyNDE0MzUwMFoXDTI5MTAyMTE0MzUwMFow\ncjELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNh\nbiBGcmFuY2lzY28xFzAVBgNVBAoTDm9yZzEuaGYuYWJsLmlvMR0wGwYDVQQDExR0\nbHNjYS5vcmcxLmhmLmFibC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABH+x\n8bSRexroy1PMUtlWWbnACRdi6Rodll7IvbEx8Dmwu/VzXHogkTmJ4+c5m11LTBaC\nQ6yswjCQJdJ40stX/7CjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggr\nBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgBXFY\nooteK+vd+0Xl/ZvgB1cgj9ImZA16eVqv3Gnjct8wCgYIKoZIzj0EAwIDSAAwRQIh\nAKe7Osvxd6ZKkJ2mCu9BMwyj+epiRoety7v5mFtt9UgwAiANox/kvcsazn8Gc8LE\nguzbZB69b+RGLzVnDzLeHjAwoQ==\n-----END CERTIFICATE-----\n"
+                "pem": ""
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.org1.hf.abl.io",
@@ -37,20 +41,60 @@
         "peer1.org1.hf.abl.io": {
             "url": "grpcs://localhost:8051",
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICTzCCAfWgAwIBAgIQUvVyuEQW8LJfdh5hStK7pzAKBggqhkjOPQQDAjByMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5oZi5hYmwuaW8xHTAbBgNVBAMTFHRsc2Nh\nLm9yZzEuaGYuYWJsLmlvMB4XDTE5MTAyNDE0MzUwMFoXDTI5MTAyMTE0MzUwMFow\ncjELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNh\nbiBGcmFuY2lzY28xFzAVBgNVBAoTDm9yZzEuaGYuYWJsLmlvMR0wGwYDVQQDExR0\nbHNjYS5vcmcxLmhmLmFibC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABH+x\n8bSRexroy1PMUtlWWbnACRdi6Rodll7IvbEx8Dmwu/VzXHogkTmJ4+c5m11LTBaC\nQ6yswjCQJdJ40stX/7CjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggr\nBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgBXFY\nooteK+vd+0Xl/ZvgB1cgj9ImZA16eVqv3Gnjct8wCgYIKoZIzj0EAwIDSAAwRQIh\nAKe7Osvxd6ZKkJ2mCu9BMwyj+epiRoety7v5mFtt9UgwAiANox/kvcsazn8Gc8LE\nguzbZB69b+RGLzVnDzLeHjAwoQ==\n-----END CERTIFICATE-----\n"
+                "pem": ""
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer1.org1.hf.abl.io",
                 "hostnameOverride": "peer1.org1.hf.abl.io"
             }
+        },
+        "peer2.org1.hf.abl.io": {
+            "url": "grpcs://localhost:8051",
+            "tlsCACerts": {
+                "pem": ""
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer2.org1.hf.abl.io",
+                "hostnameOverride": "peer2.org1.hf.abl.io"
+            }
+        },
+        "peer3.org1.hf.abl.io": {
+            "url": "grpcs://localhost:8051",
+            "tlsCACerts": {
+                "pem": ""
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer3.org1.hf.abl.io",
+                "hostnameOverride": "peer3.org1.hf.abl.io"
+            }
+        },
+        "peer4.org1.hf.abl.io": {
+            "url": "grpcs://localhost:8051",
+            "tlsCACerts": {
+                "pem": ""
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer4.org1.hf.abl.io",
+                "hostnameOverride": "peer4.org1.hf.abl.io"
+            }
+        },
+        "peer5.org1.hf.abl.io": {
+            "url": "grpcs://localhost:8051",
+            "tlsCACerts": {
+                "pem": ""
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer5.org1.hf.abl.io",
+                "hostnameOverride": "peer5.org1.hf.abl.io"
+            }
         }
     },
     "certificateAuthorities": {
         "ca.org1.hf.abl.io": {
-            "url": "https://localhost:7054",
+            "url": "https://localhost:9051",
             "caName": "ca-org1",
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICSDCCAe+gAwIBAgIQI7Ub+mYQPVXU90aGEXZvmTAKBggqhkjOPQQDAjBvMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5oZi5hYmwuaW8xGjAYBgNVBAMTEWNhLm9y\nZzEuaGYuYWJsLmlvMB4XDTE5MTAyNDE0MzUwMFoXDTI5MTAyMTE0MzUwMFowbzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xFzAVBgNVBAoTDm9yZzEuaGYuYWJsLmlvMRowGAYDVQQDExFjYS5v\ncmcxLmhmLmFibC5pbzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABDJixAmMZVlj\nipQEdOS83GLJNJuSQ/NOTQeZCXZbLKRdjBNpedtD4MYFY4yooZn+kJ91cKwDxKzG\njbSsq1DRTqijbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcD\nAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQg7vClLD22kbAg\nWLDx+txJZvEJk8YCV87zFkS/6wyy2UEwCgYIKoZIzj0EAwIDRwAwRAIgcdxZFZq8\n8t4s2Qm+imHGupWP/+GBMRmFIzvvehdSYJ0CID+fJ9mmnwaJXT82iiccVCajsexb\n6kAXHnuJI4XAAJdz\n-----END CERTIFICATE-----\n"
+                "pem": ""
             },
             "httpOptions": {
                 "verify": false

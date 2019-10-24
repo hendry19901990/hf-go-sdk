@@ -128,7 +128,7 @@ function networkUp() {
   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
     sleep 1
     echo "Sleeping 10s to allow $CONSENSUS_TYPE cluster to complete booting"
-    sleep 9
+    sleep 14
   fi
 
   if [ "$CONSENSUS_TYPE" == "etcdraft" ]; then
@@ -183,7 +183,7 @@ function upgradeNetwork() {
     docker cp -a orderer.hf.abl.io:/var/hyperledger/production/orderer $LEDGERS_BACKUP/orderer.hf.abl.io
     docker-compose $COMPOSE_FILES up -d --no-deps orderer.hf.abl.io
 
-    for PEER in peer0.org1.hf.abl.io peer1.org1.hf.abl.io; do
+    for PEER in peer0.org1.hf.abl.io peer1.org1.hf.abl.io peer2.org1.hf.abl.io peer3.org1.hf.abl.io peer4.org1.hf.abl.io peer5.org1.hf.abl.io; do
       echo "Upgrading peer $PEER"
 
       # Stop the peer and backup its ledger

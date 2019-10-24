@@ -13,6 +13,10 @@ organizations:
     peers:
     - peer0.org${ORG}.hf.abl.io
     - peer1.org${ORG}.hf.abl.io
+    - peer2.org${ORG}.hf.abl.io
+    - peer3.org${ORG}.hf.abl.io
+    - peer4.org${ORG}.hf.abl.io
+    - peer5.org${ORG}.hf.abl.io
     certificateAuthorities:
     - ca.org${ORG}.hf.abl.io
 peers:
@@ -32,6 +36,38 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer1.org${ORG}.hf.abl.io
       hostnameOverride: peer1.org${ORG}.hf.abl.io
+  peer2.org${ORG}.hf.abl.io:
+    url: grpcs://localhost:${P2PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer2.org${ORG}.hf.abl.io
+      hostnameOverride: peer2.org${ORG}.hf.abl.io
+  peer3.org${ORG}.hf.abl.io:
+    url: grpcs://localhost:${P3PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer3.org${ORG}.hf.abl.io
+      hostnameOverride: peer3.org${ORG}.hf.abl.io
+  peer4.org${ORG}.hf.abl.io:
+    url: grpcs://localhost:${P4PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer4.org${ORG}.hf.abl.io
+      hostnameOverride: peer4.org${ORG}.hf.abl.io
+  peer5.org${ORG}.hf.abl.io:
+    url: grpcs://localhost:${P5PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer5.org${ORG}.hf.abl.io
+      hostnameOverride: peer5.org${ORG}.hf.abl.io
 certificateAuthorities:
   ca.org${ORG}.hf.abl.io:
     url: https://localhost:${CAPORT}

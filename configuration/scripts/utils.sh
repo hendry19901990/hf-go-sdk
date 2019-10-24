@@ -37,8 +37,16 @@ setGlobals() {
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.hf.abl.io/users/Admin@org1.hf.abl.io/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org1.hf.abl.io:7051
-    else
+    elif [ $PEER -eq 1 ]; then
       CORE_PEER_ADDRESS=peer1.org1.hf.abl.io:8051
+    elif [ $PEER -eq 2 ]; then
+      CORE_PEER_ADDRESS=peer2.org1.hf.abl.io:9051
+    elif [ $PEER -eq 3 ]; then
+      CORE_PEER_ADDRESS=peer3.org1.hf.abl.io:10051
+    elif [ $PEER -eq 4 ]; then
+      CORE_PEER_ADDRESS=peer4.org1.hf.abl.io:11051
+    else
+      CORE_PEER_ADDRESS=peer5.org1.hf.abl.io:12051
     fi
   fi
 
@@ -139,7 +147,7 @@ upgradeChaincode() {
   setGlobals $PEER $ORG
 
   set -x
-  peer chaincode upgrade -o orderer.hf.abl.io:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 2.0 -c '{"Args":["init","a","90","b","210"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer','Org3MSP.peer')"
+  peer chaincode upgrade -o orderer.hf.abl.io:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 2.0 -c '{"Args":["init","a","90","b","210"]}' -P "AND ('Org1MSP.peer')"
   res=$?
   set +x
   cat log.txt
