@@ -4,19 +4,11 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
-  
+
 )
 
 
-func (setup *FabricSetup) Invoke(from, to, value  string) (string, error) {
-
-	// Prepare arguments
-	var args []string
-	args = append(args, "move")
-	args = append(args, from)
-	args = append(args, to)
-	args = append(args, value)
-
+func (setup *FabricSetup) Invoke(args []string) (string, error) {
 
 	if setup.client == nil {
 		var err error
@@ -24,21 +16,29 @@ func (setup *FabricSetup) Invoke(from, to, value  string) (string, error) {
 
 		setup.client, err = channel.New(clientContext)
 		if err != nil {
-			return "",  fmt.Errorf("failed to create new channel client %v" , err)
+			return "",  fmt.Errorf("%v" , err)
 		}
 	}
 
 	// Add data that will be visible in the proposal, like a description of the invoke request
 
 	// Create a request (proposal) and send it
-	response, err := setup.client.Execute(channel.Request{ChaincodeID: setup.ChainCodeID, Fcn: "invoke", Args: [][]byte{[]byte(args[0]),[]byte(args[1]),[]byte(args[2]),[]byte(args[3])}})
+	response, err := setup.client.Execute(channel.Request{ChaincodeID: setup.ChainCodeID, Fcn: "invoke", Args: setup.parseArgs(args)})
 	if err != nil {
 	//	panic(fmt.Sprintf("failed to create new channel client"))
-		return "", fmt.Errorf("failed to move funds: %v", err)
+		return "", fmt.Errorf("%v", err)
 	}
 
 	// Wait for the result of the submission
-
-
 	return string(response.TransactionID), nil
+}
+
+func (setup *FabricSetup) parseArgs(args []string)[][]byte{
+	result := make([][]byte, 0)
+
+	for _, arg := range args{
+		result = append(result, []byte(arg))
+	}
+
+	return result
 }

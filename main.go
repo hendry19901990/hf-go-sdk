@@ -30,11 +30,8 @@ func main() {
 		UserName: "User1",
 	}
 
-
-
 	// Initialization of the Fabric SDK from the previously set properties
-	err := fSetup.Initialize(INIT_)
-	if err != nil {
+	if err := fSetup.Initialize(INIT_); err != nil {
 		fmt.Printf("Unable to initialize the Fabric SDK: %v\n", err)
 		return
 	}
@@ -42,22 +39,21 @@ func main() {
 	defer fSetup.CloseSDK()
 
 	// Install and instantiate the chaincode
-	err = fSetup.InstallAndInstantiateCC(INIT_)
-	if err != nil {
+
+	if err := fSetup.InstallAndInstantiateCC(INIT_); err != nil {
 		fmt.Printf("Unable to install and instantiate the chaincode: %v\n", err)
 		return
 	}
 
   var result string
-
-  result, err =  fSetup.Invoke("a","b","5")
+	result, err :=  fSetup.Invoke([]string{"request_accept", "9", "200", "WyJkbmFfdHlwZV8xIiwgImRuYV90eXBlXzIiXQ==", "mickey@disney.com"}) // dnas 1 parse to json and then parse to base64
   if err != nil {
 		fmt.Printf("Unable to invoke the chaincode: %v\n", err)
 		return
 	}
   fmt.Println(result)
 
-  result, err =  fSetup.Query("a")
+  result, err =  fSetup.Query([]string{"query", "9_200"})
   if err != nil {
 		fmt.Printf("Unable to invoke the chaincode: %v\n", err)
 		return
